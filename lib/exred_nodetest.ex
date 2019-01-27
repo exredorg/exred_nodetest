@@ -4,7 +4,7 @@ defmodule Exred.NodeTest do
 
   See example usage below. The `module` argument is the node module that will be tested.
 
-  start_node/0 will start the node. It will add the :pid and :node keys to the test context.
+  `start_node/0` will start the node. It will add the `:pid` and `:node` keys to the test context.
 
   `:pid` is the process id of the running node GenServer
 
@@ -33,7 +33,7 @@ defmodule Exred.NodeTest do
           start_node()
         end
 
-        test "has pid", context do
+        test "runnnig", context do
           assert is_pid(context.pid)
         end
       end
