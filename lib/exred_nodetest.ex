@@ -44,8 +44,12 @@ defmodule Exred.NodeTest do
     quote do
       require Logger
 
-      def start_node do
-        module = Keyword.get(unquote(opts), :module)
+      def start_node(mod \\ nil) do
+        module =
+          case mod do
+            nil -> Keyword.get(unquote(opts), :module)
+            _ -> mod
+          end
 
         node_attributes = module.attributes()
         assert is_map(node_attributes)

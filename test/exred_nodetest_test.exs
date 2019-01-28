@@ -5,8 +5,10 @@ defmodule Exred.NodeTestTest do
   use Exred.NodeTest, module: Exred.NodeTest
 
   test "start_node/0 exists" do
-    funs = __info__(:functions)
+    assert Kernel.function_exported?(__MODULE__, :start_node, 0)
+  end
 
-    assert Keyword.fetch(funs, :start_node) == {:ok, 0}
+  test "start_node/1 exists" do
+    assert Kernel.function_exported?(__MODULE__, :start_node, 1)
   end
 end
