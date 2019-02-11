@@ -2,7 +2,10 @@ defmodule Exred.NodeTest do
   @moduledoc """
   A helper module to set up tests for Exred nodes.
 
-  See example usage below. The `module` argument is the node module that will be tested.
+  See example usage below. The `module` and `config` arguments can be specified either on the
+  `use` line or in the `start_node` call.
+  `module is the node module that will be tested
+  `config` is the config overrides to start the node with (overrides the config in the actual node being tested)
 
   `start_node/0` will start the node. It will add the `:pid` and `:node` keys to the test context.
 
@@ -44,14 +47,16 @@ defmodule Exred.NodeTest do
     quote do
       require Logger
 
-      def start_node(mod \\ nil) do
-        module =
-          case mod do
-            nil -> Keyword.get(unquote(opts), :module)
-            _ -> mod
-          end
+      def start_node(),
+        do: start_node(Keyword.get(unquote(opts), :module), Keyword.get(unquote(opts), :config))
 
-        node_attributes = module.attributes()
+      def start_node(module), do: start_node(module, %{})
+
+      def start_node(module, config) do
+        # figure out the node attributes we need to start the module up with
+        # (merge config into the default attributes)
+        modattrs = module.attributes()
+        node_attributes = %{modattrs | config: Map.merge(modattrs.config, config)}
         assert is_map(node_attributes)
 
         node =
