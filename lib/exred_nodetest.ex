@@ -48,7 +48,7 @@ defmodule Exred.NodeTest do
       require Logger
 
       def start_node(),
-        do: start_node(Keyword.get(unquote(opts), :module), Keyword.get(unquote(opts), :config))
+        do: start_node(Keyword.get(unquote(opts), :module), Keyword.get(unquote(opts), :config, %{}))
 
       def start_node(module), do: start_node(module, %{})
 
